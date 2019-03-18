@@ -27,8 +27,8 @@ class LoginForm(FlaskForm):
 class RegistrationForm(FlaskForm):
     username = StringField('Логин', validators=[DataRequired()])
     password = PasswordField('Пароль', validators=[DataRequired()])
-    password_once = PasswordField('Пароль', validators=[DataRequired()])
-    email = EmailField('Email address', validators = [DataRequired(), Email()])
+    password_once = PasswordField('Повторите пароль', validators=[DataRequired()])
+    email = EmailField('Email', validators = [DataRequired(), Email()])
     send = SubmitField('Отправить')
 
 
@@ -98,7 +98,9 @@ def login():
 def registration():
     form = RegistrationForm()
     if form.validate_on_submit():
-        pass
+        user_name = form.username.data
+        password = form.password.data
+        email = form.email.data
     return render_template('registration.html', title='Регистрация', form=form, err='')
 
 

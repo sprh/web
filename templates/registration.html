@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Регестрация</h1>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.username.label }}<br>
+            {{ form.username }}<br>
+            {% for error in form.username.errors %}
+                <div class="alert alert-danger" role="alert">
+                    Поле не заполнено
+                </div>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.email.label }}<br>
+            {{ form.email }}<br>
+            {% for error in form.email.errors %}
+                <div class="alert alert-danger" role="alert">
+                    Поле не заполнено
+                </div>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password }}<br>
+            {% for error in form.password.errors %}
+                <div class="alert alert-danger" role="alert">
+                    Поле не заполнено
+                </div>
+            {% endfor %}
+        </p>
+        <p>
+           {{ form.password_once.label }}<br>
+            {{ form.password_once }}<br>
+            {% for error in form.password_once.errors %}
+                <div class="alert alert-danger" role="alert">
+                    Поле не заполнено
+                </div>
+            {% endfor %}
+            {% if form.password_once.data != form.password.data %}
+                <div class="alert alert-danger" role="alert">
+                    Пароли должны совпадать
+                </div>
+            {% endif %}
+        </p>
+        <p>{{ form.send() }}</p>
+    </form>
+{% endblock %}
