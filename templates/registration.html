@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Регестрация</h1>
     <form action="" method="post" novalidate>
         {{ form.hidden_tag() }}
         <p>
@@ -45,6 +44,14 @@
                 </div>
             {% endif %}
         </p>
-        <p>{{ form.send() }}</p>
+        <p>{{form.about.label}}<br>
+        {{form.about}}</p>
+        {%if form.about.data == '' %}
+                <div class="alert alert-danger" role="alert">
+                    Поле не заполнено
+                </div>
+        {% endif %}
+        <p>{{ form.send() }}
+        {{form.back()}}</p>
     </form>
 {% endblock %}

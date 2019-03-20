@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField, PasswordField, BooleanField
+from wtforms import StringField, SubmitField, TextAreaField, PasswordField, BooleanField, StringField
 from wtforms.fields.html5 import EmailField
-from wtforms.validators import DataRequired, Email
+from wtforms.validators import DataRequired, Email, Optional, Length
 from flask import render_template, redirect, Flask
 from db import NewsModel, UsersModel, db
 
@@ -29,7 +29,9 @@ class RegistrationForm(FlaskForm):
     password = PasswordField('Пароль', validators=[DataRequired()])
     password_once = PasswordField('Повторите пароль', validators=[DataRequired()])
     email = EmailField('Email', validators = [DataRequired(), Email()])
+    about = TextAreaField('Немного о себе..', [Optional(), Length(min=10, max=100)])
     send = SubmitField('Отправить')
+    back = SubmitField('Назад')
 
 
 @app.route('/add_news', methods=['GET', 'POST'])
@@ -97,10 +99,15 @@ def login():
 @app.route('/registration', methods=['GET', 'POST'])
 def registration():
     form = RegistrationForm()
+    if form.back.data:
+        email = form.email
+        print(type(email))
+        return redirect('/index')
     if form.validate_on_submit():
         user_name = form.username.data
         password = form.password.data
         email = form.email.data
+        print(type(email))
     return render_template('registration.html', title='Регистрация', form=form, err='')
 
 
