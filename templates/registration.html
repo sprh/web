@@ -2,6 +2,9 @@
 
 {% block content %}
     <form action="" method="post" novalidate>
+        <div class="login-page">
+        <div class="form">
+        <form class="register-form">
         {{ form.hidden_tag() }}
         <p>
             {{ form.username.label }}<br>
@@ -53,5 +56,8 @@
         {% endif %}
         <p>{{ form.send() }}
         {{form.back()}}</p>
+ </form>
+  </div>
+</div>
     </form>
 {% endblock %}

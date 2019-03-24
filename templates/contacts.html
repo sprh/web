@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    h2 {
+  display: block;
+  font-size: 2em;
+  margin-top: 0.67em;
+  margin-bottom: 0.67em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+</style>
+
+    <form action="" method="post" novalidate>
+        <div class="login-page">
+            <div class="form">
+                <form class="register-form">
+                    {% for item in text['contacts'] %}
+        <h2>{{item["title"]}}</h2>
+        <div>{{item["content"]}}</div>
+    {% endfor %}
+                </form>
+                <div style="margin-top: 10%"><span><a href={{href}}>Назад</a></span></div>
+            </div>
+        </div>
+    </form>
+{% endblock %}

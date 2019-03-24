@@ -1,14 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
+
     <form action="" method="post" novalidate>
+        <div class="login-page">
+        <div class="form">
+        <form class="register-form">
         {{ form.hidden_tag() }}
         <p>
             {{ form.title.label }}<br>
             {{ form.title }}<br>
             {% for error in form.title.errors %}
                 <div class="alert alert-danger" role="alert">
-                    {{ error }}
+                    {{ Вы оставили поле пустым! }}
                 </div>
             {% endfor %}
         </p>
@@ -17,10 +21,13 @@
             {{ form.content }}<br>
             {% for error in form.content.errors %}
                 <div class="alert alert-danger" role="alert">
-                    {{ error }}
+                    {{ Вы оставили поле пустым! }}
                 </div>
             {% endfor %}
         </p>
         <p>{{ form.submit() }}</p>
-    </form>
+                    </form>
+  </div>
+</div>
+        </form>
 {% endblock %}

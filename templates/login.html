@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
+
     <form action="" method="post" novalidate>
+        <div class="login-page">
+        <div class="form">
+        <form class="register-form">
         {{ form.hidden_tag() }}
         <p>
             {{ form.username.label }}<br>
@@ -21,8 +25,10 @@
                 </div>
             {% endfor %}
         </p>
-        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
         <p>{{ form.submit() }}
             {{form.reg()}}</p>
-    </form>
+                </form>
+  </div>
+</div>
+        </form>
 {% endblock %}

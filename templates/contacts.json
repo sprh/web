@@ -1,0 +1,22 @@
+{
+  "contacts": [
+    {
+      "title": "Email",
+      "content": "sprh.tt@gmail.com"
+    },
+    {
+      "title": "Телефон",
+      "content": "+7 (916) 308 94 98"
+    }
+  ],
+  "cooperation": [
+    {
+      "title": "Email",
+      "content": "cooperation_sprh.t@gmail.com"
+    },
+    {
+      "title": "Телефон",
+      "content": "+7 (916) 005 82 97"
+    }
+  ]
+}
