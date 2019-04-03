@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    h2 {
+  display: block;
+  font-size: 2em;
+  margin-top: 0.67em;
+  margin-bottom: 0.67em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+</style>
+    <form action="" method="post" novalidate>
+        <div class="login-page">
+            <div class="form">
+                <form class="register-form">
+                    <h2>Страница не найдена!</h2>
+                    <p>То, что вы искали, находится не тут...
+                    <p style="margin-top: 10%"><a href="{{ url_for('index') }}">Вернуться на главную страницу</a>
+                </form>
+            </div>
+        </div>
+    </form>
+{% endblock %}

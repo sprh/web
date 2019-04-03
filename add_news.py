@@ -5,11 +5,13 @@ from wtforms.validators import DataRequired, Email, Optional, Length
 from flask import render_template, redirect, Flask, request
 from db import NewsModel, UsersModel, db
 import json
+import datetime
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 session = {}
 recent = '/login'
+now = datetime.datetime.now()
 
 
 class AddNewsForm(FlaskForm):
@@ -19,7 +21,7 @@ class AddNewsForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    username = StringField('Логин', validators=[DataRequired()])
+    username = StringField('Логин или email', validators=[DataRequired()])
     password = PasswordField('Пароль', validators=[DataRequired()])
     submit = SubmitField('Войти')
     reg = SubmitField('Зарегестрироваться')
@@ -28,7 +30,6 @@ class LoginForm(FlaskForm):
 class RegistrationForm(FlaskForm):
     username = StringField('Логин', validators=[DataRequired()])
     password = PasswordField('Пароль', validators=[DataRequired()])
-    password_once = PasswordField('Повторите пароль', validators=[DataRequired()])
     email = EmailField('Email', validators = [DataRequired(), Email()])
     about = TextAreaField('Немного о себе..', [Optional(), Length(min=10, max=100)])
     send = SubmitField('Отправить')
@@ -46,7 +47,8 @@ def add_news():
         title = form.title.data
         content = form.content.data
         nm = NewsModel(db.get_connection())
-        nm.insert(title, content, session['user_id'])
+        data = '-'.join([str(now.day), str(now.month), str(now.year)])
+        nm.insert(title, content, session['user_id'], data)
         return redirect("/index")
     return render_template('add_news.html', title='Добавление новости',
                            form=form, username=session['username'], about_page='')
@@ -62,13 +64,15 @@ def delete_news(news_id):
 
 
 @app.route('/')
-@app.route('/index')
+@app.route('/index', methods=['GET', 'POST'])
 def index():
     global recent
     recent = '/index'
     if 'username' not in session:
-        print(session)
         return redirect('/login')
+    if request.method == 'POST':
+        if 'perenap' in request.form:
+            return redirect('/add_news')
     news = NewsModel(db.get_connection()).get_all(session['user_id'])
     return render_template('index.html', username=session['username'],
                            news=news, title='Новости', about_page='')
@@ -93,7 +97,7 @@ def login():
         password = form.password.data
         user_model = UsersModel(db.get_connection())
         exists = user_model.exists(user_name, password)
-        if (exists[0]):
+        if exists[0]:
             session['username'] = user_name
             session['user_id'] = exists[1]
         else:
@@ -110,13 +114,22 @@ def registration():
     recent = '/registration'
     form = RegistrationForm()
     if form.back.data:
-        email = form.email
         return redirect('/index')
-    if form.validate_on_submit():
+    if form.send.data:
+        print('done')
         user_name = form.username.data
         password = form.password.data
+        user_model = UsersModel(db.get_connection())
         email = form.email.data
-        print(type(email))
+        about = form.about.data
+        user_model.insert(user_name, email, password, about)
+        exists = user_model.exists(user_name, password)
+        if (exists[0]):
+            session['username'] = user_name
+            session['user_id'] = exists[1]
+        else:
+            return redirect('/registration')
+        return redirect("/index")
     return render_template('registration.html', title='Регистрация', form=form, err='',
                            about_page='Расскажите нам немного о себе!')
 
@@ -142,5 +155,15 @@ def cooperation():
     return render_template('cooperation.html', title='Сотрудничество', href=recent, text=text)
 
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html', title='Упс, ошибка!'), 404
+
+
+@app.errorhandler(405)
+def page_not_found(e):
+    return render_template('404.html', title='Упс, ошибка!'), 405
+
+
 if __name__ == '__main__':
-    app.run(port=8063, host='127.0.0.1')
+    app.run(port=8057, host='127.0.0.1')

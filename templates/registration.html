@@ -4,7 +4,7 @@
     <form action="" method="post" novalidate>
         <div class="login-page">
         <div class="form">
-        <form class="register-form">
+        <p class="register-form">
         {{ form.hidden_tag() }}
         <p>
             {{ form.username.label }}<br>
@@ -32,8 +32,8 @@
                     Поле не заполнено
                 </div>
             {% endfor %}
-        </p>
-        <p>
+            </p>
+            <p>
            {{ form.password_once.label }}<br>
             {{ form.password_once }}<br>
             {% for error in form.password_once.errors %}
@@ -41,12 +41,7 @@
                     Поле не заполнено
                 </div>
             {% endfor %}
-            {% if form.password_once.data != form.password.data %}
-                <div class="alert alert-danger" role="alert">
-                    Пароли должны совпадать
-                </div>
-            {% endif %}
-        </p>
+            </p>
         <p>{{form.about.label}}<br>
         {{form.about}}</p>
         {%if form.about.data == '' %}
@@ -56,7 +51,6 @@
         {% endif %}
         <p>{{ form.send() }}
         {{form.back()}}</p>
- </form>
   </div>
 </div>
     </form>
