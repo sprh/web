@@ -1,57 +1,48 @@
 {% extends "base.html" %}
 
 {% block content %}
+
     <form action="" method="post" novalidate>
         <div class="login-page">
         <div class="form">
-        <p class="register-form">
+        <form class="register-form">
         {{ form.hidden_tag() }}
         <p>
             {{ form.username.label }}<br>
             {{ form.username }}<br>
             {% for error in form.username.errors %}
                 <div class="alert alert-danger" role="alert">
-                    Поле не заполнено
+                    {{error}}
                 </div>
             {% endfor %}
         </p>
-        <p>
-            {{ form.email.label }}<br>
+            <p>
+                {{ form.email.label }}<br>
             {{ form.email }}<br>
             {% for error in form.email.errors %}
                 <div class="alert alert-danger" role="alert">
-                    Поле не заполнено
+                    {{error}}
                 </div>
             {% endfor %}
-        </p>
+            </p>
         <p>
             {{ form.password.label }}<br>
             {{ form.password }}<br>
             {% for error in form.password.errors %}
                 <div class="alert alert-danger" role="alert">
-                    Поле не заполнено
+                    {{error}}
                 </div>
             {% endfor %}
-            </p>
+        </p>
             <p>
-           {{ form.password_once.label }}<br>
-            {{ form.password_once }}<br>
-            {% for error in form.password_once.errors %}
-                <div class="alert alert-danger" role="alert">
-                    Поле не заполнено
-                </div>
-            {% endfor %}
+                {{ form.about.label }}<br>
+            {{ form.about }}<br>
             </p>
-        <p>{{form.about.label}}<br>
-        {{form.about}}</p>
-        {%if form.about.data == '' %}
-                <div class="alert alert-danger" role="alert">
-                    Поле не заполнено
-                </div>
-        {% endif %}
-        <p>{{ form.send() }}
+        <p>
+            {{form.submit()}}
         {{form.back()}}</p>
+                </form>
   </div>
 </div>
-    </form>
+        </form>
 {% endblock %}

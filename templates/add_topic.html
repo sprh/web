@@ -8,26 +8,26 @@
         <form class="register-form">
         {{ form.hidden_tag() }}
         <p>
-            {{ form.username.label }}<br>
-            {{ form.username }}<br>
-            {% for error in form.username.errors %}
+            {{ form.title.label }}<br>
+            {{ form.title }}<br>
+            {% for error in form.title.errors %}
                 <div class="alert alert-danger" role="alert">
-                    Поле не заполнено
+                     Вы оставили поле пустым!
                 </div>
             {% endfor %}
         </p>
         <p>
-            {{ form.password.label }}<br>
-            {{ form.password }}<br>
-            {% for error in form.password.errors %}
+            {{ form.content.label }}<br>
+            {{ form.content }}<br>
+            {% for error in form.content.errors %}
                 <div class="alert alert-danger" role="alert">
-                    Поле не заполнено
+                     Вы оставили поле пустым!
                 </div>
             {% endfor %}
         </p>
-        <p>{{ form.submit()}}
-            {{form.reg()}}</p>
-                </form>
+        <p>{{ form.submit() }}
+        {{form.back()}}</p>
+                    </form>
   </div>
 </div>
         </form>

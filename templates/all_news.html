@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+.form {
+  position: relative;
+  z-index: 1;
+  background: white;
+  max-width: 600px;
+  margin: 0 auto 20px;
+  padding: 45px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+   .brd {
+    border: 4px double black; /* Параметры границы */
+    background: #f4f3eb; /* Цвет фона */
+    padding: 10px; /* Поля вокруг текста */
+   }
+    h2 {
+  display: block;
+  font-size: 1.25em;
+  margin-top: 0.67em;
+  margin-bottom: 0.67em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+</style>
+<div class="form">
+    <div>
+        {%if position%}
+        <form method="POST" action="/add_news">
+            <button type="submit" name="perenap" id="perenap_btn">Добавить новость</button>
+        </form>
+        {%endif%}
+    </div>
+    <script>
+        function add_like(id_news, num) {
+          document.getElementById('like_btn' + id_news).style.display = 'none';
+          document.getElementById('likes_cnt' + id_news).innerHTML = num + 1;
+          fetch('/api/add_like/' + id_news, {method: 'PUT'});
+        }
+    </script>
+    {% for item in news %}
+    <div class="brd" role="alert" style="margin: 10%">
+        <h2>{{item[1]}}</h2>
+        <div>{{item[2]}}</div>
+        {% if position %}
+        <a href="/delete_news/{{item[0]}}" onclick="return confirm('OK?')">Удалить новость</a>
+        {% endif %}
+        {% if item[6] == None %}
+        <button id="like_btn{{item[0]}}" type="submit" style="border: 0; background: transparent; outline: none" onclick="add_like({{item[0]}}, {{item[5]}});return false">
+            <img src="https://cdn0.iconfinder.com/data/icons/30_Free_Black_ToolBar_Icons/40/Black_ThumbsUp.png" alt="submit" />
+        </button>
+        {% endif %}
+        <div id="likes_cnt{{item[0]}}">{{item[5]}}</div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

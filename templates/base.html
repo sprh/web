@@ -14,7 +14,7 @@ $('.message a').click(function(){
 .form {
   position: relative;
   z-index: 1;
-  background: #FFFFFF;
+  background: white;
   max-width: 360px;
   margin: 0 auto 200px;
   padding: 45px;
@@ -61,7 +61,6 @@ font-family: "Roboto", sans-serif;
   background: #45a055;
 }
 .form .message {
-  margin: 15px 0 0;
   color: #b3b3b3;
   font-size: 12px;
 }
@@ -84,11 +83,10 @@ font-family: "Roboto", sans-serif;
   clear: both;
 }
 .container .info {
-  margin: 50px auto;
+  margin: 30px auto;
   text-align: center;
 }
 .container .info h1 {
-  margin: 0 0 15px;
   padding: 0;
   font-size: 36px;
   font-weight: 300;
@@ -106,11 +104,7 @@ font-family: "Roboto", sans-serif;
   color: #EF3B3A;
 }
 body {
-  background: #76b852; /* fallback for old browsers */
-  background: -webkit-linear-gradient(right, #76b852, #8DC26F);
-  background: -moz-linear-gradient(right, #76b852, #8DC26F);
-  background: -o-linear-gradient(right, #76b852, #8DC26F);
-  background: linear-gradient(to left, #76b852, #8DC26F);
+  background: white;
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -118,14 +112,13 @@ body {
 
 /* Pen Title */
 .pen-title {
-  padding: 50px 0;
+  padding: 15px 0;
   text-align: center;
   letter-spacing: 2px;
 }
 .pen-title h1 {
-  margin: 0 0 20px;
   font-size: 48px;
-  font-weight: 300;
+  font-weight: 280;
 }
 .pen-title span {
   font-size: 12px;
@@ -157,7 +150,6 @@ body {
   background: #33b5e5;
   width: 30px;
   height: 30px;
-  margin: -5px 0 0;
   color: #ffffff;
   font-size: 12px;
   line-height: 30px;
@@ -193,7 +185,6 @@ body {
   display: block;
 }
 .form-module h2 {
-  margin: 0 0 20px;
   color: #33b5e5;
   font-size: 18px;
   font-weight: 400;
@@ -245,10 +236,90 @@ font-family: "Roboto", sans-serif;
   background: #f2f2f2;
   width: 100%;
   border: 0;
-  margin: 0 0 15px;
   padding: 15px;
   box-sizing: border-box;
   font-size: 14px;
+}
+
+
+//for hat!!
+
+
+    * { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: url(https://html5book.ru/wp-content/uploads/2015/10/background54.png)
+}
+nav { background: white; }
+nav ul {
+  list-style: none;
+  margin: 10;
+  padding: 0;
+}
+nav a {
+  text-decoration: none;
+  outline: none;
+  display: block;
+  transition: .4s ease-in-out;
+}
+.topmenu {
+  text-align: center;
+  padding: 10px 0px;
+}
+.topmenu > li {
+  display: inline-block;
+  position: relative;
+}
+.topmenu > li:after {
+  content: "";
+  position: absolute;
+  right: 0;
+  width: 1px;
+  height: 12px;
+  background: #d2d2d2;
+  top: 16px;
+  box-shadow: 4px -2px 0 #d2d2d2;
+  transform: rotate(30deg);
+}
+.topmenu > li:last-child:after {
+  background: none;
+  box-shadow: none;
+}
+.topmenu > li > a {
+  padding: 12px 26px;
+  color: #767676;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 1px;
+  font-family: 'Exo 2', sans-serif;
+}
+.topmenu li a:hover { color: #c0a97a; }
+.submenu {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 210px;
+  margin-left: -105px;
+  background: #fafafa;
+  border: 1px solid #ededed;
+  z-index: 5;
+  visibility: hidden;
+  opacity: 0;
+  transform: scale(.8);
+  transition: .4s ease-in-out;
+}
+.submenu li a {
+  padding: 10px 0;
+  margin: 0 0px;
+  border-bottom: 1px solid #efefef;
+  font-size: 12px;
+  color: #484848;
+  font-family: 'Kurale', serif;
+}
+.topmenu > li:hover .submenu {
+  visibility: visible;
+  opacity: 1;
+  transform: scale(1);
 }
 </style>
 <head>
@@ -260,16 +331,37 @@ font-family: "Roboto", sans-serif;
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900|RobotoDraft:400,100,300,500,700,900'>
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
-    <link rel="stylesheet" href="css/style.css">
-    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-    <script src='https://codepen.io/andytran/pen/vLmRVp.js'></script>
-    <script  src="js/index.js"></script>
 </head>
   <body bgcolor=#45a055>
     <div class="pen-title">
-    <h1>{{title}}</h1><span><a href='/about_us'>О проекте</a><a> | </a><a href='/contacts'>Контакты</a><a> | </a>
-        <a href='/cooperation'>Сотрудничество</a></span>
+    <h1>{{title}}</h1>
     </div>
+    <nav style="margin: 5%">
+  <ul class="topmenu">
+    <li><a>Новости</a>
+      <ul class="submenu">
+           <li><a href="/lk">Мои новости</a></li>
+           <li><a href="/index">Все новости</a></li>
+       </ul>
+    </li>
+    <li><a href="/topics">Темы</a></li>
+    <li><a>Популярное</a>
+       <ul class="submenu">
+           <li><a href="/popular/week">За неделю</a></li>
+           <li><a href="/popular/month">За месяц</a></li>
+           <li><a href="/popular/all_time">За все время</a></li>
+       </ul>
+    </li>
+      <li><a>Контакты</a>
+          <ul class="submenu">
+              <li><a href="/contacts/advertising">Реклама</a></li>
+              <li><a href="/contacts/cooperation">Сотрудничество</a></li>
+          </ul>
+      </li>
+      <li><a href="/jobs">Вакансии</a>
+      <li><a href="/about_us">О нас</a></li>
+  </ul>
+</nav>
     <main role="main" class="container">
         {% block content %}{% endblock %}
     </main>

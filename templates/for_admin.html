@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    h2 {
+  display: block;
+  font-size: 1.5em;
+  margin-top: 0.67em;
+  margin-bottom: 0.67em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+    h1 {
+  display: block;
+  font-size: 2em;
+  margin-top: 0.67em;
+  margin-bottom: 0.67em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+</style>
+    <form action="" method="post" novalidate>
+        <div class="login-page">
+        <div class="form">
+        <form class="register-form">
+            <h1>Информация о лайках</h1>
+            {% for item in mas %}
+            <h2> Пользователь {{item[0]}}</h2>
+        <div>Поставил лайк в {{item[4]}} на запись '{{item[2]}}'</div>
+            {% endfor %}
+             </form>
+  </div>
+</div>
+    </form>
+{% endblock %}

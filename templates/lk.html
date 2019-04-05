@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+.form {
+  position: relative;
+  z-index: 1;
+  background: white;
+  max-width: 600px;
+  margin: 0 auto 200px;
+  padding: 45px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+   .brd {
+    border: 4px double black; /* Параметры границы */
+    background: #f4f3eb; /* Цвет фона */
+    padding: 10px; /* Поля вокруг текста */
+   }
+    h2 {
+  display: block;
+  font-size: 1.25em;
+  margin-top: 0.67em;
+  margin-bottom: 0.67em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+</style>
+    <form action="" method="post" novalidate>
+        <div class="login-page">
+            <div class="form">
+                {%if position%}
+                <form method="POST" action="/add_news">
+                    <button type="submit" name="perenap" id="perenap_btn">Добавить новость</button>
+                </form>
+                {%endif%}
+                {% for item in news %}
+                <div class="brd" role="alert" style="margin: 10%">
+                    <h2>{{item[1]}}</h2>
+                    <div>{{item[2]}}</div>
+                    {% if position %}
+                    <a href="/delete_news/{{item[0]}}" style="margin:10%">Удалить новость</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </form>
+{% endfor %}
+
+{% endblock %}

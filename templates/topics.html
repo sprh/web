@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+.form {
+  max-width: 600px;
+}
+table {
+font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+text-align: center;
+border-collapse: separate;
+border-spacing: 20px;
+background: #ECE9E0;
+color: #656665;
+  max-width: 100%;
+  width: 100%;
+border: 16px solid #ECE9E0;
+border-radius: 20px
+}
+th {
+border-bottom: 1px solid #fff;
+font-size: 18px;
+padding: 10px;
+}
+td {
+background: #F5D7BF;
+padding: 20px;
+transition: .3s linear;
+border-bottom: 1px solid #ccc;
+}
+</style>
+    <form action="" method="post" novalidate>
+        <div class="login-page">
+            <div class="form">
+                {%if position%}
+                <form method="POST" action="/add_topic">
+                    <button type="submit" name="perenap" id="perenap_btn"" >Добавить тему</button>
+                </form>
+                {%endif%}
+                <table>
+                {% for item in topics %}
+                <tr style="margin:10%">
+                    <th>
+                    <h2>{{item[1]}}</h2>
+                    <div>{{item[2]}}</div>
+                        {%if position%}
+                    <a href="/delete_topic/{{item[0]}}">Удалить неактуальную тему</a>
+                        {%endif%}
+                    </th>
+                </tr>
+                    {%endfor%}
+                </table>
+            </div>
+        </div>
+    </form>
+{% endblock %}
