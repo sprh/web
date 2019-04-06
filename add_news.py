@@ -67,6 +67,14 @@ class AddTopicForm(FlaskForm):
     back = SubmitField('Назад')
 
 
+# Выход
+@app.route('/logout')
+def logout():
+    session.pop('username',0)
+    session.pop('user_id',0)
+    return redirect('/login')
+
+
 # Авторизация
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -87,11 +95,12 @@ def login():
             session['user_id'] = exists[1]
         else:
             return render_template('login.html', title='Авторизация', form=form,
-                                   err='Проверьте правильность введенных данных')
+                                   err='Проверьте правильность введенных данных',
+                                   session=session)
         # Переход к новостям
         return redirect("/index")
     return render_template('login.html', title='Авторизация', form=form,
-                           about_page='')
+                           about_page='', session=session)
 
 
 # Добавление лайка
@@ -157,7 +166,7 @@ def registration():
         # Переход к новостям
         return redirect('/index')
     return render_template('registration.html', title='Регистрация', form=form, err='',
-                           about_page='Расскажите нам немного о себе!')
+                           about_page='Расскажите нам немного о себе!', session=session)
 
 
 # Новости, которые пользователь лайкнул
@@ -170,7 +179,7 @@ def lk():
     news = NewsModel(db.get_connection())
     news = news.get_my(session['user_id'])
     return render_template('all_news.html', title='Сохраненные новости',
-                           news=news)
+                           news=news, session=session)
 
 
 # Все новости
@@ -191,7 +200,7 @@ def index():
     news = NewsModel(db.get_connection())
     news = news.get_all(session['user_id'])
     return render_template('all_news.html', title='Новости',
-                           news=news, position=position)
+                           news=news, position=position, session=session)
 
 
 # Добавдение новости
@@ -215,7 +224,8 @@ def add_news():
         return render_template('indifferent/not_for_admin.html', title='У вас недостаточно прав!')
     else:
         return render_template('add_news.html', title='Добавление новости',
-                               form=form, username=session['username'], about_page='')
+                               form=form, username=session['username'], about_page='',
+                               session=session)
 
 
 # Популярные новости. Сортировка по лайкам
@@ -230,20 +240,20 @@ def popular(period):
             return redirect('/login')
         news = news.get_popular_week(session['user_id'])
         return render_template('all_news.html', title='Популярное',
-                               news=news)
+                               news=news, session=session)
         return 'week'
     elif period == 'month':
         if 'username' not in session:
             return redirect('/login')
         news = news.get_popular_month(session['user_id'])
         return render_template('all_news.html', title='Популярное',
-                               news=news)
+                               news=news, session=session)
     elif period == 'all_time':
         if 'username' not in session:
             return redirect('/login')
         news = news.get_popular_alltime(session['user_id'])
         return render_template('all_news.html', title='Популярное',
-                               news=news)
+                               news=news, session=session)
 
 
 # Вывод тем
@@ -261,7 +271,7 @@ def topics():
     topics = TopicModel(db.get_connection())
     topics = topics.get_all()
     return render_template('topics.html', title='Наиболее актуальные и волнующие темы',
-                           topics=topics, position=position)
+                           topics=topics, position=position, session=session)
 
 
 # Добавление темы. Только для админа
@@ -282,10 +292,12 @@ def add_topic():
     position = user.return_position(session['user_id'])
     # Проверка, имеет ли пользователь права
     if not position:
-        return render_template('indifferent/not_for_admin.html', title='У вас недостаточно прав!')
+        return render_template('indifferent/not_for_admin.html', title='У вас недостаточно прав!',
+                               session=session)
     else:
         return render_template('add_topic.html', title='Добавление темы',
-                               form=form, username=session['username'], about_page='')
+                               form=form, username=session['username'], about_page='',
+                               session=session)
 
 
 # Контактная информация
@@ -295,12 +307,14 @@ def contacts(for_what):
     if for_what == 'advertising':
         with open("templates/indifferent/contacts.json", "rt", encoding="utf8") as f:
             text = json.loads(f.read())
-        return render_template('indifferent/contacts.html', title='По поводу рекламы..', href=recent, text=text)
+        return render_template('indifferent/contacts.html', title='По поводу рекламы..', href=recent,
+                               text=text, session=session)
     # Сотрудничество
     if for_what == 'cooperation':
         with open("templates/indifferent/contacts.json", "rt", encoding="utf8") as f:
             text = json.loads(f.read())
-        return render_template('indifferent/cooperation.html', title='Сотрудничество с нами', href=recent, text=text)
+        return render_template('indifferent/cooperation.html', title='Сотрудничество с нами', href=recent,
+                               text=text, session=session)
 
 
 # Вакансии
@@ -308,7 +322,8 @@ def contacts(for_what):
 def jobs():
     with open("templates/indifferent/jobs.json", "rt", encoding="utf8") as f:
         text = json.loads(f.read())
-    return render_template('indifferent/jobs.html', title='Вакансии', text=text, href=recent)
+    return render_template('indifferent/jobs.html', title='Вакансии', text=text, href=recent,
+                           session=session)
 
 
 # О новостях (описания нет)
@@ -316,23 +331,24 @@ def jobs():
 def about_us():
     file = open('templates/indifferent/about_us.txt', 'r')
     text = file.readlines()
-    return render_template('indifferent/about_us.html', title='О проекте', text=text, href=recent)
+    return render_template('indifferent/about_us.html', title='О проекте', text=text, href=recent,
+                           session=session)
 
 
 # Обработка ошибок
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('indifferent/404.html', title='Упс, ошибка!'), 404
+    return render_template('indifferent/404.html', title='Упс, ошибка!', session=session), 404
 
 
 @app.errorhandler(405)
 def page_not_found(e):
-    return render_template('indifferent/404.html', title='Упс, ошибка!'), 405
+    return render_template('indifferent/404.html', title='Упс, ошибка!', session=session), 405
 
 
 @app.errorhandler(500)
 def page_not_found(e):
-    return render_template('indifferent/404.html', title='Упс, ошибка!'), 500
+    return render_template('indifferent/404.html', title='Упс, ошибка!', session=session), 500
 
 
 # Страница только для админа
@@ -347,10 +363,12 @@ def for_adm():
         nm = NewsModel(db.get_connection())
         news = nm.get_all_likes()
         print(news)
-        return render_template('for_admin.html', mas=news, title='Информация о лайках')
+        return render_template('for_admin.html', mas=news, title='Информация о лайках',
+                               session=session)
     else:
-        return render_template('indifferent/not_for_admin.html', title='У вас недостаточно прав!')
+        return render_template('indifferent/not_for_admin.html', title='У вас недостаточно прав!',
+                               session=session)
 
 
 if __name__ == '__main__':
-    app.run(port=8054, host='127.0.0.1')
+    app.run(port=8053, host='127.0.0.1')
